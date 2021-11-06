@@ -1,6 +1,8 @@
 import random
 from game import constants
 from game.action import Action
+import sys
+from game.point import Point
 
 class HandleCollisionsAction(Action):
     """A code template for handling collisions. The responsibility of this class of objects is to update the game state when actors collide.
@@ -19,35 +21,30 @@ class HandleCollisionsAction(Action):
         ball = cast["ball"][0]
         brick = cast["brick"]
         paddle = cast["paddle"][0]
-        #if ball.get_position().get_y() >= constants.MAX_Y:
-            #return False
-        if ball.get_position().get_x() <= 0 or ball.get_position().get_x() >= constants.MAX_X or ball.get_position().get_y() <= 0:
-            self.change_direciton(ball)    
-        
+
+        #If ball bounces off right wall
+        if ball.get_position().get_x() == (constants.MAX_X - 1):
+            ball.set_velocity(ball._velocity.bounce_x()) 
+
+        # If ball bounces off left wall
+        elif ball.get_position().get_x() == 1:
+            ball.set_velocity(ball._velocity.bounce_x())
+
+        #If ball bounces off floor:
+        elif ball.get_position().get_y() == constants.MAX_Y - 1:
+            print("Game over thanks for playing!")
+            sys.exit()
+            
+
+        #If ball bounces off ceiling
+        elif ball.get_position().get_y() == 1:
+            ball.set_velocity(ball._velocity.bounce_y())  
+
+        #If ball bounces off paddle
         if ball.get_position().equals(paddle.get_position()):
-            self.change_direciton(ball)
+            ball.set_velocity(ball._velocity.bounce_y())
 
         for single_brick in brick:
             if ball.get_position().equals(single_brick.get_position()):
-                self.hit_brick(brick, single_brick)
-                self.change_direciton(ball)
-
-    def hit_brick(self,brick,single_brick):
-        """Will delete the brick that the ball touched
-        
-        Args:
-            brick (list): The list of bricks on the board
-            single_brick (variable): Single brick in the list of bricks
-        """
-        index = brick.index(single_brick)
-        brick.pop(index)
-        
-
-    def change_direciton(self,ball):
-        """Changes the direction of the ball
-        
-        Args:
-            ball: An instance of ball 
-        """
-        velocity = ball.get_velocity()
-        ball.set_velocity(velocity.reverse())
+                brick.remove(single_brick)
+                ball.set_velocity(ball._velocity.bounce_y())
