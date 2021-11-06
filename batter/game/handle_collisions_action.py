@@ -24,11 +24,16 @@ class HandleCollisionsAction(Action):
 
         #If ball bounces off right wall
         if ball.get_position().get_x() == (constants.MAX_X - 1):
-            ball.set_velocity(ball._velocity.bounce_x()) 
+            ball.set_velocity(ball.get_velocity().bounce_x())
 
         # If ball bounces off left wall
         elif ball.get_position().get_x() == 1:
-            ball.set_velocity(ball._velocity.bounce_x())
+            ball.set_velocity(ball.get_velocity().bounce_x())
+
+        #If ball bounces off paddle
+        elif ball.get_position().get_y() == paddle.get_position().get_y() - 1 and ball.get_position().get_x() in range(paddle.get_position().get_x(), paddle.get_position().get_x() + 11):
+            ball.set_velocity(ball.get_velocity().bounce_y())
+            print('\a') # Plays a PC Beep
 
         #If ball bounces off floor:
         elif ball.get_position().get_y() == constants.MAX_Y - 1:
@@ -38,13 +43,9 @@ class HandleCollisionsAction(Action):
 
         #If ball bounces off ceiling
         elif ball.get_position().get_y() == 1:
-            ball.set_velocity(ball._velocity.bounce_y())  
-
-        #If ball bounces off paddle
-        if ball.get_position().equals(paddle.get_position()):
-            ball.set_velocity(ball._velocity.bounce_y())
+            ball.set_velocity(ball.get_velocity().bounce_y())
 
         for single_brick in brick:
             if ball.get_position().equals(single_brick.get_position()):
                 brick.remove(single_brick)
-                ball.set_velocity(ball._velocity.bounce_y())
+                ball.set_velocity(ball.get_velocity().bounce_y())
