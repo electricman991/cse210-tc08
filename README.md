@@ -40,3 +40,4 @@ root                    (project root folder)
 ## Authors
 ---
 * Carl Bialorucki <carl.bialorucki@byui.edu>
+* Braiden Sommer som18001@byui.edu
