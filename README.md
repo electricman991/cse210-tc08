@@ -42,3 +42,4 @@ root                    (project root folder)
 * Carl Bialorucki <carl.bialorucki@byui.edu>
 * Braiden Sommer som18001@byui.edu
 * Karla Sommerfeldt kryn5796@yahoo.ca
+* Jake Corn Corn614@gmail.com
